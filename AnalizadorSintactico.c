@@ -3,162 +3,156 @@
 #include <string.h>
 #include "AnalizadorSintactico.h"
 
-void analisisSintactico(FILE * cadenaAtomos){
-	char ch = getc(cadenaAtomos);
-	ch = U(cadenaAtomos, ch);
-	ch = UP(cadenaAtomos, ch);
+FILE * cadenaAtomos = NULL;
+char ch;
+long n_avance = 1; 
+
+void analisisSintactico(FILE * atomos_temp){
+	cadenaAtomos = atomos_temp;
+	ch = getc(cadenaAtomos);
+	U();
+	UP();
 	if(ch == EOF){
 		printf("Se acepta como parte de la gramatica.");
 	}
 	else{
 		errorSintactico();
-	}
-		   
+	}	   
 }
 
-char U(FILE * cadenaAtomos, char ch){
+void U(){
 	if(ch == 'r' || ch == 'e' || ch == 'v'){
-		ch = Y(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch,'a');
-		ch = avanza(cadenaAtomos, ch,'(');
-		ch = avanza(cadenaAtomos, ch,')');
-		ch = avanza(cadenaAtomos, ch,'{');
-		ch = D(cadenaAtomos, ch);
-		ch = S(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch,'}');
+		Y();
+		avanza('a');
+		avanza('(');
+		avanza(')');
+		avanza('{');
+		D();
+		S();
+		avanza('}');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char Y(FILE * cadenaAtomos, char ch){
+void Y(){
 	if(ch == 'r' || ch == 'e'){
-		ch = YP(cadenaAtomos, ch);
+		YP();
 	}
 	else if(ch = 'v'){
-		ch = avanza(cadenaAtomos, ch,'v');
+		avanza('v');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char D(FILE * cadenaAtomos, char ch){
+void D(){
 	if(ch == 'm' || ch == 'p' || ch == 's' || ch == 'a' || ch == '['){
 		
 	}
 	else if(ch == 'r' || ch == 'e'){
-		ch = DP(cadenaAtomos, ch);
-		ch = D(cadenaAtomos, ch);
+		DP(cadenaAtomos, ch);
+		D(cadenaAtomos, ch);
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char UP(FILE * cadenaAtomos, char ch){
+void UP(){
 	if(ch == EOF){
 		
 	}
 	else if(ch == 'r' || ch == 'e' || ch == 'v' ){
-		ch = U(cadenaAtomos, ch);
-		ch = UP(cadenaAtomos, ch);
+		U();
+		UP();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char DP(FILE * cadenaAtomos, char ch){
+void DP(){
 	if(ch == 'r' || ch == 'e' || ch == 'v'){
-		ch = YP(cadenaAtomos, ch);
-		ch = L(cadenaAtomos, ch);
+		YP();
+		L();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char YP(FILE * cadenaAtomos, char ch){
+void YP(){
 	if(ch == 'r'){
-		ch = avanza(cadenaAtomos, ch, 'r');
+		avanza('r');
 	}
 	else if(ch == 'e'){
-		ch = avanza(cadenaAtomos, ch, 'e');
+		avanza('e');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char L(FILE * cadenaAtomos, char ch){
+void L(){
 	if(ch == 'a'){
-		ch = avanza(cadenaAtomos, ch,'a');
-		ch = Z(cadenaAtomos, ch);
-		ch = V(cadenaAtomos, ch);
+		avanza('a');
+		Z();
+		V();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char Z(FILE * cadenaAtomos, char ch){
+void Z(){
 	if(ch == ',' || ch == ';' || ch == '*' || ch == '/' || ch == '+' || ch == '-' ||
 	   ch == ']' || ch == '#' || ch == ']' || ch == '#' || ch == 'g' || ch == '>' ||
 	   ch == 'y' || ch == '<' || ch == 'l'){
 		
 	}
 	else if(ch == '['){
-		ch = avanza(cadenaAtomos, ch, '[');
+		avanza('[');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char V(FILE * cadenaAtomos, char ch){
+void V(){
 	if(ch == ','){
-		ch = avanza(cadenaAtomos, ch, ',');
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = Z(cadenaAtomos, ch);
-		ch = V(cadenaAtomos, ch);
+		avanza(',');
+		avanza('a');
+		Z();
+		V();
 	}
 	else if(ch == ';'){
-		ch = avanza(cadenaAtomos, ch, ';');
+		avanza(';');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char A(FILE * cadenaAtomos, char ch){
+void A(){
 	if(ch == 'a'){
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = avanza(cadenaAtomos, ch, '=');
-		ch = AP(cadenaAtomos, ch);
-		ch = O(cadenaAtomos, ch);
+		avanza('a');
+		avanza('=');
+		AP();
+		O();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char AP(FILE * cadenaAtomos, char ch){
+void AP(){
 	if(ch == 'a'){
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = avanza(cadenaAtomos, ch, '=');
-		ch = AP(cadenaAtomos, ch);
+		avanza('a');
+		avanza('=');
+		AP();
 	}
 	else if(ch == '[' || ch == 'c'){
 		
@@ -166,164 +160,154 @@ char AP(FILE * cadenaAtomos, char ch){
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char O(FILE * cadenaAtomos, char ch){
+void O(){
 	if(ch == '['){
-		ch = avanza(cadenaAtomos, ch, '[');
-		ch = E(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, ']');
+		avanza('[');
+		E();
+		avanza(']');
 		
 	}
 	else if(ch == 'c'){
-		ch = avanza(cadenaAtomos, ch, 'c');
-		ch = avanza(cadenaAtomos, ch, ';');
+		avanza('c');
+		avanza(';');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char M(FILE * cadenaAtomos, char ch){
+void M(){
 	if(ch == 'm'){
-		ch = avanza(cadenaAtomos, ch, 'm');
-		ch = avanza(cadenaAtomos, ch, '(');
-		ch = X(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, ')');
-		ch = avanza(cadenaAtomos, ch, '{');
-		ch = S(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, '}');
+		avanza('m');
+		avanza('(');
+		X();
+		avanza(')');
+		avanza('{');
+		S();
+		avanza('}');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char X(FILE * cadenaAtomos, char ch){
+void X(){
 	if(ch == '(' || ch == 'a' || ch == 'i' || ch == 'd'){
-		ch = E(cadenaAtomos, ch);
-		ch = R(cadenaAtomos, ch);
-		ch = E(cadenaAtomos, ch);
+		E();
+		R();
+		E();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 	
-char R(FILE * cadenaAtomos, char ch){
+void R(){
 	if(ch == '#'){
-		ch = avanza(cadenaAtomos, ch, '#');
+		avanza('#');
 	}
 	else if(ch == 'g'){
-		ch = avanza(cadenaAtomos, ch, 'g');
+		avanza('g');
 	}
 	else if(ch == '>'){
-		ch = avanza(cadenaAtomos, ch, '>');
+		avanza('>');
 	}
 	else if(ch == 'y'){
-		ch = avanza(cadenaAtomos, ch, 'y');
+		avanza('y');
 	}
 	else if(ch == '<'){
-		ch = avanza(cadenaAtomos, ch, '<');
+		avanza('<');
 	}
 	else if(ch == 'l'){
-		ch = avanza(cadenaAtomos, ch, 'l');
+		avanza('l');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char P(FILE * cadenaAtomos, char ch){
+void P(){
 	if(ch == 'p'){
-		ch = avanza(cadenaAtomos, ch, 'p');
-		ch = avanza(cadenaAtomos, ch, '(');
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = avanza(cadenaAtomos, ch, '=');
-		ch = avanza(cadenaAtomos, ch, 'i');
-		ch = avanza(cadenaAtomos, ch, ';');
-		ch = X(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, ';');
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = avanza(cadenaAtomos, ch, '=');
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = avanza(cadenaAtomos, ch, '+');
-		ch = avanza(cadenaAtomos, ch, 'i');
-		ch = avanza(cadenaAtomos, ch, ')');
-		ch = avanza(cadenaAtomos, ch, '{');
-		ch = S(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, '}');
+		avanza('p');
+		avanza('(');
+		avanza('a');
+		avanza('=');
+		avanza('i');
+		avanza(';');
+		X();
+		avanza(';');
+		avanza('a');
+		avanza('=');
+		avanza('a');
+		avanza('+');
+		avanza('i');
+		avanza(')');
+		avanza('{');
+		S();
+		avanza('}');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
 
-char I(FILE * cadenaAtomos, char ch){
+void I(){
 	if(ch == 's'){
-		ch = avanza(cadenaAtomos, ch, 's');
-		ch = avanza(cadenaAtomos, ch, '(');
-		ch = X(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, ')');
-		ch = avanza(cadenaAtomos, ch, '{');
-		ch = S(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, '}');
-		ch = avanza(cadenaAtomos, ch, 'n');
-		ch = avanza(cadenaAtomos, ch, '{');
-		ch = S(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, '}');
+		avanza('s');
+		avanza('(');
+		X();
+		avanza(')');
+		avanza('{');
+		S();
+		avanza('}');
+		avanza('n');
+		avanza('{');
+		S();
+		avanza('}');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char S(FILE * cadenaAtomos, char ch){
+void S(){
 	if(ch == 'm' || ch == 'p' || ch == 's' || ch == 'a' || ch == '['){
-		ch = SP(cadenaAtomos, ch);
-		ch = SPP(cadenaAtomos, ch);
-
+		SP();
+		SPP();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char SP(FILE * cadenaAtomos, char ch){
+void SP(){
 	if(ch == 'm'){
-		ch = M(cadenaAtomos, ch);
+		M();
 	}
 	else if(ch == 'p'){
-		ch = P(cadenaAtomos, ch);
+		P();
 	}
 	else if(ch == 's'){
-		ch = P(cadenaAtomos, ch);
+		P();
 	}
 	else if(ch == 'a'){
-		ch = I(cadenaAtomos, ch);
+		I();
 	}
 	else if(ch == '['){
-		ch = A(cadenaAtomos, ch);
+		A();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char SPP(FILE * cadenaAtomos, char ch){
+void SPP(){
 	if(ch == 'm' || ch == 'p' || ch == 's' || ch == 'a' || ch == '['){
-		ch = SP(cadenaAtomos, ch);
-		ch = SPP(cadenaAtomos, ch);
+		SP();
+		SPP();
 	}
 	else if (ch == '}'){
 		
@@ -331,30 +315,28 @@ char SPP(FILE * cadenaAtomos, char ch){
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char E(FILE * cadenaAtomos, char ch){
+void E(){
 	if(ch == '(' || ch == 'a' || ch == 'i' || ch == 'd' ){
-		ch = T(cadenaAtomos, ch);
-		ch = EP(cadenaAtomos, ch);
+		T();
+		EP();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char EP(FILE * cadenaAtomos, char ch){
+void EP(){
 	if(ch == '+' ){
-		ch = avanza(cadenaAtomos, ch, '+');
-		ch = T(cadenaAtomos, ch);
-		ch = EP(cadenaAtomos, ch);
+		avanza('+');
+		T();
+		EP();
 	}
 	else if(ch == '-' ){
-		ch = avanza(cadenaAtomos, ch, '-');
-		ch = T(cadenaAtomos, ch);
-		ch = EP(cadenaAtomos, ch);
+		avanza('-');
+		T();
+		EP();
 	}
 	else if(ch == ']' || ch == '#' || ch == 'g' || ch == '>' || ch == 'y' || ch == '<' ||
 	   		ch == ')' || ch == 'l' ){
@@ -363,30 +345,28 @@ char EP(FILE * cadenaAtomos, char ch){
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char T(FILE * cadenaAtomos, char ch){
+void T(){
 	if(ch == '(' || ch == 'a' || ch == 'i' || ch == 'd' ){
-		ch = F(cadenaAtomos, ch);
-		ch = TP(cadenaAtomos, ch);
+		F();
+		TP();
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char TP(FILE * cadenaAtomos, char ch){
+void TP(){
 	if(ch == '*' ){
-		ch = avanza(cadenaAtomos, ch, '*');
-		ch = F(cadenaAtomos, ch);
-		ch = TP(cadenaAtomos, ch);
+		avanza('*');
+		F();
+		TP();
 	}
 	else if(ch == '/' ){
-		ch = avanza(cadenaAtomos, ch, '/');
-		ch = F(cadenaAtomos, ch);
-		ch = TP(cadenaAtomos, ch);
+		avanza('/');
+		F();
+		TP();
 	}
 	else if(ch == ']' || ch == '#' || ch == 'g' || ch == '>' || ch == 'y' || ch == '<' ||
 	   		ch == 'l' || ch == ')' || ch == ';' ){
@@ -395,37 +375,36 @@ char TP(FILE * cadenaAtomos, char ch){
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
-char F(FILE * cadenaAtomos, char ch){
+void F(){
 	if(ch == '(' ){
-		ch = avanza(cadenaAtomos, ch, '(');
-		ch = E(cadenaAtomos, ch);
-		ch = avanza(cadenaAtomos, ch, ')');
+		avanza('(');
+		E();
+		avanza(')');
 	}
 	else if(ch == 'a' ){
-		ch = avanza(cadenaAtomos, ch, 'a');
-		ch = Z(cadenaAtomos, ch);
+		avanza('a');
+		Z();
 	}
 	else if(ch == 'i' ){
-		ch = avanza(cadenaAtomos, ch, 'i');
+		avanza('i');
 	}
 	else if(ch == 'd' ){
-		ch = avanza(cadenaAtomos, ch, 'd');
+		avanza('d');
 	}
 	else{
 		errorSintactico();
 	}
-	return ch;
 }
 
 
-char avanza(FILE * cadenaAtomos, char ch, char tokenEsperado){
+void avanza(char tokenEsperado){
 	if(!(ch == tokenEsperado)){
 		errorSintactico();
 	}
-	return getc(cadenaAtomos);
+	ch = getc(cadenaAtomos);
+	n_avance++;
 }
 
 void errorSintactico(){
