@@ -64,6 +64,7 @@ void agregaAtomo(FILE * cadenaAtomos, char * atomos){
 	fprintf(cadenaAtomos, atomos);
 }
 
+//  Atomos del catalogo de palabras reservadas
 char palResAtomos[7][2] = {	"r",
 							"e",
 							"m",
@@ -73,6 +74,7 @@ char palResAtomos[7][2] = {	"r",
 							"v"
 };
 
+// Atomos del catalogo de operadores relacionales
 char opRelAtomos[6][2] = {	"#",
 							"g",
 							">",

@@ -1,7 +1,7 @@
 #ifndef ANASINT_HEADER
 #define ANASINT_HEADER
 
-void analisisSintactico(FILE * cadenaAtomos);
+void analisisSintactico(FILE * cadenaAtomos, char * atomosMemoria);
 void U();
 void Y();
 void D();

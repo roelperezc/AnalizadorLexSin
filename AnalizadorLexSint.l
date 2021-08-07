@@ -1,6 +1,6 @@
 %{
 /*
-Primer proyecto: Analizador lexico de lenguaje propuesto.
+Segundo proyecto: Analizador lexico-sintactico de lenguaje propuesto.
 Elaborado por Roel Alejandro Perez Candanoza.
 Compiladores.
 Semestre 2021-2.
@@ -144,6 +144,7 @@ void main(int argc, char * argv[])
 	atomos = malloc(numeroAtomos);
 	fseek(atomos_temp,0,SEEK_SET);
 	fread(atomos,1,numeroAtomos,atomos_temp);
+	fseek(atomos_temp,0,SEEK_SET);
 	
 	/*Despeja el archivo de salida y lo abre en modo append*/
 	char * nom_arch_salida = strcat(nom_arch,".lex");
@@ -179,8 +180,10 @@ void main(int argc, char * argv[])
 	printf(atomos);
 	fprintf(archivo_salida,"\n\nCadena de atomos\n");
 	fprintf(archivo_salida,atomos);
-	
 	printf("\n");
+	fprintf(archivo_salida,"\n");
+	
+	analisisSintactico(atomos_temp, atomos);
 	
 	/*Se cierra el archivo de salida*/
 	fclose(archivo_salida);
@@ -188,6 +191,9 @@ void main(int argc, char * argv[])
 	/*Se elimina el archivo temporal de atomos*/
 	fclose(atomos_temp);
 	remove("atomos_temp.txt");
+	
+	/*Se libera la cadena de atomos en memoria*/
+	free(atomos);
 	
 	/*Se libera la memoria de las tablas*/
 	eliminarListaToken(tablaToken);
