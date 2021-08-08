@@ -8,7 +8,7 @@ VAC principal(){
 	m2 = @mensaje@;
 
 	MIENTRAS((a+b)/4>(c+2)*d){
-		a=[a-1]	
+		a=[a-1]
 	}
 
 	PARA(var1=0;var1<15;var1=var1+1){

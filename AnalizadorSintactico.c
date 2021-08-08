@@ -50,7 +50,7 @@ void Y(){
 		avanza('v');
 	}
 	else{
-		errorSintactico("DEC ENT");
+		errorSintactico("DEC ENT VAC");
 	}
 }
 
@@ -60,11 +60,11 @@ void D(){
 		
 	}
 	else if(ch == 'r' || ch == 'e'){
-		DP(cadenaAtomos, ch);
-		D(cadenaAtomos, ch);
+		DP();
+		D();
 	}
 	else{
-		errorSintactico("MIENTRAS PARA SI <ident> [");
+		errorSintactico("MIENTRAS PARA SI <ident> [ DEC ENT");
 	}
 }
 
@@ -78,7 +78,7 @@ void UP(){
 		UP();
 	}
 	else{
-		errorSintactico("DEC ENT VAC");
+		errorSintactico("<fin de cadena> DEC ENT VAC");
 	}
 }
 
@@ -131,7 +131,7 @@ void Z(){
 		avanza(']');
 	}
 	else{
-		errorSintactico(", ; * / + - ] # == > >= < <= )");
+		errorSintactico(", ; * / + - ] # == > >= < <= ) [");
 	}
 }
 
@@ -342,7 +342,7 @@ void SPP(){
 		
 	}
 	else{
-		errorSintactico("MIENTRAS PARA SI <ident> [");
+		errorSintactico("MIENTRAS PARA SI <ident> [ }");
 	}
 }
 

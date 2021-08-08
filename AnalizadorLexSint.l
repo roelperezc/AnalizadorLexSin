@@ -4,6 +4,7 @@ Segundo proyecto: Analizador lexico-sintactico de lenguaje propuesto.
 Elaborado por Roel Alejandro Perez Candanoza.
 Compiladores.
 Semestre 2021-2.
+07/09/2021
 */
 
 #include <stdio.h>
@@ -152,7 +153,7 @@ void main(int argc, char * argv[])
 	fclose(fopen(nom_arch_salida, "w"));
 	archivo_salida=fopen(nom_arch_salida,"a");
 	
-	/*Muetra tabla de simbolos en consola y en archivo*/
+	/*Muestra tabla de simbolos en consola y en archivo*/
 	printf("\nTabla de simbolos\n");
 	mostrarListaSimbolo(tablaSimbolo);
 	fprintf(archivo_salida,"\nTabla de simbolos\n");
