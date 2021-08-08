@@ -12,6 +12,7 @@ Semestre 2021-2.
 #include "Tokens.h"
 #include "Literales.h"
 #include "Simbolos.h"
+#include "AnalizadorSintactico.h"
 #include "FuncAux.h"
 
 FILE *archivo_salida;
@@ -147,7 +148,7 @@ void main(int argc, char * argv[])
 	fseek(atomos_temp,0,SEEK_SET);
 	
 	/*Despeja el archivo de salida y lo abre en modo append*/
-	char * nom_arch_salida = strcat(nom_arch,".lex");
+	char * nom_arch_salida = strcat(nom_arch,".lexsin");
 	fclose(fopen(nom_arch_salida, "w"));
 	archivo_salida=fopen(nom_arch_salida,"a");
 	

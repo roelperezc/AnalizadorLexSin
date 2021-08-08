@@ -20,7 +20,7 @@ void analisisSintactico(FILE * atomosArchivo, char * atomosMemoria){
 		printf("\nAnalisis sintactico exitoso. Se reconoce como parte de la gramatica.\n");
 	}
 	else{
-		errorSintactico();
+		errorSintactico("<fin de cadena>");
 	}
 }
 
@@ -37,7 +37,7 @@ void U(){
 		avanza('}');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("DEC ENT VAC");
 	}
 }
 
@@ -50,7 +50,7 @@ void Y(){
 		avanza('v');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("DEC ENT");
 	}
 }
 
@@ -64,7 +64,7 @@ void D(){
 		D(cadenaAtomos, ch);
 	}
 	else{
-		errorSintactico();
+		errorSintactico("MIENTRAS PARA SI <ident> [");
 	}
 }
 
@@ -78,7 +78,7 @@ void UP(){
 		UP();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("DEC ENT VAC");
 	}
 }
 
@@ -89,7 +89,7 @@ void DP(){
 		L();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("DEC ENT");
 	}
 }
 
@@ -102,7 +102,7 @@ void YP(){
 		avanza('e');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("DEC ENT");
 	}
 }
 
@@ -114,7 +114,7 @@ void L(){
 		V();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("<ident>");
 	}
 }
 
@@ -131,7 +131,7 @@ void Z(){
 		avanza(']');
 	}
 	else{
-		errorSintactico();
+		errorSintactico(", ; * / + - ] # == > >= < <= )");
 	}
 }
 
@@ -147,7 +147,7 @@ void V(){
 		avanza(';');
 	}
 	else{
-		errorSintactico();
+		errorSintactico(", ;");
 	}
 }
 
@@ -160,7 +160,7 @@ void A(){
 		O();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("<ident>");
 	}
 }
 
@@ -175,7 +175,7 @@ void AP(){
 		
 	}
 	else{
-		errorSintactico();
+		errorSintactico("<ident> [ <cadena>");
 	}
 }
 
@@ -192,7 +192,7 @@ void O(){
 		avanza(';');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("[ <cadena>");
 	}
 }
 
@@ -208,7 +208,7 @@ void M(){
 		avanza('}');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("MIENTRAS");
 	}
 }
 
@@ -220,7 +220,7 @@ void X(){
 		E();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("( <ident> <cte ent> <cte dec>");
 	}
 }
 
@@ -245,7 +245,7 @@ void R(){
 		avanza('l');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("# == > >= < <=");
 	}
 }
 
@@ -271,7 +271,7 @@ void P(){
 		avanza('}');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("PARA");
 	}
 }
 
@@ -291,7 +291,7 @@ void I(){
 		avanza('}');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("SI");
 	}
 }
 
@@ -302,7 +302,7 @@ void S(){
 		SPP();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("MIENTRAS PARA SI <ident> [");
 	}
 }
 
@@ -328,7 +328,7 @@ void SP(){
 		avanza(']');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("MIENTRAS PARA SI <ident> [");
 	}
 }
 
@@ -342,7 +342,7 @@ void SPP(){
 		
 	}
 	else{
-		errorSintactico();
+		errorSintactico("MIENTRAS PARA SI <ident> [");
 	}
 }
 
@@ -353,7 +353,7 @@ void E(){
 		EP();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("( <ident> <cte ent> <cte dec>");
 	}
 }
 
@@ -374,7 +374,7 @@ void EP(){
 		
 	}
 	else{
-		errorSintactico();
+		errorSintactico("+ - ] # == > >= < <= ) ;");
 	}
 }
 
@@ -385,7 +385,7 @@ void T(){
 		TP();
 	}
 	else{
-		errorSintactico();
+		errorSintactico("( <ident> <cte ent> <cte dec>");
 	}
 }
 
@@ -406,7 +406,7 @@ void TP(){
 		
 	}
 	else{
-		errorSintactico();
+		errorSintactico("* / ] # == > >= < <= ) ; + -");
 	}
 }
 
@@ -428,24 +428,56 @@ void F(){
 		avanza('d');
 	}
 	else{
-		errorSintactico();
+		errorSintactico("( <ident> <cte ent> <cte dec>");
 	}
+}
+
+// Atomos y los tokens que representan
+char atomosTokens[14][2][10] ={{"r", "DEC"},
+							   {"e", "ENT"},
+							   {"m", "MIENTRAS"},
+							   {"p", "PARA"},
+							   {"s", "SI"},
+							   {"n", "SINO"},
+							   {"v", "VAC"},
+							   {"a", "<ident>"},
+							   {"c", "<cadena>"},
+							   {"g", "=="},
+							   {"y", ">="},
+							   {"l", "<="},
+							   {"i", "<cte ent>"},
+							   {"d", "<cte dec>"}
+								};
+
+// Atomo que es su propio token, global
+char atomoToken[2] = {'\0','\0'};
+
+// Metodo que devuelve cual es el token de un atomo 
+char * atomosATokens(char atomo){
+	for(int i = 0; i < 14; i++){
+		if(atomo == atomosTokens[i][0][0]){
+			return atomosTokens[i][1]; 
+		}
+	}
+	atomoToken[0] = atomo;
+	return atomoToken;
 }
 
 // Metodo para avanzar un token en la cadena si es el esperado o en caso contrario
 // mandar error sintactico. 
 void avanza(char tokenEsperado){
 	if(!(ch == tokenEsperado)){
-		errorSintactico();
+		errorSintactico(atomosATokens(tokenEsperado));
 	}
 	ch = getc(cadenaAtomos);
 	n_avance++;
 }
 
 // Metodo para terminar el programa en caso de error sintactico. 
-void errorSintactico(){
+void errorSintactico(char * tokensEsperados){
 	printf("\nError sintactico en token %d\n", n_avance);
 	printf("%.*s\n", n_avance, atomosDin);
+	printf("Se esperaba alguno de los siguientes tokens: %s\n", tokensEsperados);
 	remove("atomos_temp.txt");
 	exit(0);
 }
