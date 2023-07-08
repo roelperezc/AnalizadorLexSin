@@ -1,0 +1,40 @@
+VAC principal(){
+
+	DEC x1, y1;
+	ENT a[5], otro[10], c, d;
+
+	x1 = [2.7]
+	c=d=[4*d]
+	m2 = @mensaje@;
+
+	MIENTRAS((a+b)/4>(c+2)*d){
+		a=[a-1]
+	}
+
+	PARA(var1=0;var1<15;var1=var1+1){
+		x1=@hola amigos@;
+		[imprimirsaludo()]
+	}
+
+	SI(var2>7){
+		va2=[2]
+		x1 = [c/d]
+		x2 = [(x1+23.8)/3]
+	}
+	SINO{
+		var2=[0]
+		var3=[(x1+x2)/2]
+	}
+
+	[operacion()]
+}
+
+ENT operacion(){
+	ENT a, b, c, d[29];
+	DEC x, y, z;
+	MIENTRAS(a#b){
+		a = [x*(3.14+z)/w]
+		b = [42+y*z]
+		c = [5 - b[2]]
+	}
+}
